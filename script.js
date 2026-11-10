@@ -317,24 +317,35 @@ function findMinimum() {
  *      - Mảng số nguyên integerArray đã được lưu
  *
  * * Process
- *      - Tạo biến minimumPositive chưa có giá trị
+ *      - Tạo mảng positiveArray để chứa các số dương
  *      - Lấy lần lượt từng phần tử trong mảng
- *      - Chỉ xét những phần tử lớn hơn 0
- *      - Nếu chưa có số dương nhỏ nhất hoặc số đang xét nhỏ hơn,
- *        lưu số đó vào minimumPositive
+ *      - Nếu phần tử lớn hơn 0, thêm phần tử đó vào positiveArray
+ *      - Kiểm tra positiveArray có phần tử hay không
+ *      - Nếu có, lấy phần tử đầu làm nhỏ nhất tạm thời
+ *      - Duyệt các phần tử còn lại và cập nhật số nhỏ nhất
  *
  * * Output
  *      - Trả về số dương nhỏ nhất tìm được
  *      - Trả về null nếu mảng không có số dương
  */
 function findMinimumPositive() {
-  let minimumPositive = null;
+  const positiveArray = [];
 
   for (let i = 0; i < integerArray.length; i++) {
     if (integerArray[i] > 0) {
-      if (minimumPositive === null || integerArray[i] < minimumPositive) {
-        minimumPositive = integerArray[i];
-      }
+      positiveArray.push(integerArray[i]);
+    }
+  }
+
+  if (positiveArray.length === 0) {
+    return null;
+  }
+
+  let minimumPositive = positiveArray[0];
+
+  for (let i = 1; i < positiveArray.length; i++) {
+    if (positiveArray[i] < minimumPositive) {
+      minimumPositive = positiveArray[i];
     }
   }
 
@@ -348,22 +359,25 @@ function findMinimumPositive() {
  *      - Mảng số nguyên integerArray đã được lưu
  *
  * * Process
- *      - Duyệt mảng từ phần tử cuối về phần tử đầu
- *      - Kiểm tra phần tử có chia hết cho 2 không
- *      - Nếu có, trả về phần tử đó ngay vì đây là số chẵn cuối cùng
+ *      - Tạo biến lastEven = -1
+ *      - Duyệt lần lượt các phần tử trong mảng
+ *      - Nếu phần tử chia hết cho 2, gán phần tử đó vào lastEven
+ *      - Tiếp tục duyệt để các số chẵn phía sau thay thế giá trị trước đó
  *
  * * Output
  *      - Trả về số chẵn cuối cùng trong mảng
  *      - Trả về -1 nếu không tìm thấy số chẵn
  */
 function findLastEvenNumber() {
-  for (let i = integerArray.length - 1; i >= 0; i--) {
+  let lastEven = -1;
+
+  for (let i = 0; i < integerArray.length; i++) {
     if (integerArray[i] % 2 === 0) {
-      return integerArray[i];
+      lastEven = integerArray[i];
     }
   }
 
-  return -1;
+  return lastEven;
 }
 
 /**
@@ -437,20 +451,24 @@ function isPrime(number) {
  * * Process
  *      - Duyệt lần lượt các phần tử từ đầu mảng
  *      - Dùng hàm isPrime để kiểm tra từng phần tử
- *      - Nếu phần tử là số nguyên tố, trả về phần tử đó ngay
+ *      - Nếu phần tử là số nguyên tố, gán vào firstPrime rồi dùng break
+ *        để dừng vòng lặp
  *
  * * Output
  *      - Trả về số nguyên tố đầu tiên trong mảng
  *      - Trả về -1 nếu không tìm thấy số nguyên tố
  */
 function findFirstPrime() {
+  let firstPrime = -1;
+
   for (let i = 0; i < integerArray.length; i++) {
     if (isPrime(integerArray[i])) {
-      return integerArray[i];
+      firstPrime = integerArray[i];
+      break;
     }
   }
 
-  return -1;
+  return firstPrime;
 }
 
 /**
